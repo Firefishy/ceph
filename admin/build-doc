@@ -111,8 +111,15 @@ for target in $sphinx_targets; do
             extra_opt="-t man"
             ;;
     esac
-    $vdir/bin/sphinx-build -a -b $builder $extra_opt -d doctrees \
+    $vdir/bin/sphinx-build -W -a -b $builder $extra_opt -d doctrees \
                            $TOPDIR/doc $TOPDIR/build-doc/output/$target
+    exit_status=$?
+    if [ $exit_status -eq 0 ]; then
+      echo "Build completed with a non-zero exti status: $exit_status"
+      system exit $exit_status
+    fi
+
+
 done
 
 #
